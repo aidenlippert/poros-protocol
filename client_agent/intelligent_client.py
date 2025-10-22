@@ -20,8 +20,8 @@ load_dotenv()
 
 # Gemini API configuration
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-# Use v1 API with correct model name
-GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent"
+# Use v1beta API with Gemini 2.0 (1.5 is retired)
+GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent"
 
 POROS_API_URL = os.getenv("POROS_API_URL", "https://poros-protocol-production.up.railway.app")
 
