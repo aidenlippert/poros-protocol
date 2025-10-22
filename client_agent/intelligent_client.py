@@ -13,16 +13,14 @@ This agent acts as the user-facing interface that:
 import os
 import json
 import httpx
-import google.generativeai as genai
 from typing import Dict, List, Optional
 from dotenv import load_dotenv
 
 load_dotenv()
 
-# Configure Gemini
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-# Use the correct model name for the current API
-model = genai.GenerativeModel('models/gemini-1.5-flash-latest')
+# Gemini API configuration
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent"
 
 POROS_API_URL = os.getenv("POROS_API_URL", "https://poros-protocol-production.up.railway.app")
 
@@ -119,11 +117,23 @@ Respond in JSON format:
 }}
 """
 
-        response = model.generate_content(prompt)
+        # Call Gemini REST API directly
+        async with httpx.AsyncClient() as http_client:
+            resp = await http_client.post(
+                f"{GEMINI_API_URL}?key={GEMINI_API_KEY}",
+                json={
+                    "contents": [{"parts": [{"text": prompt}]}]
+                },
+                timeout=30.0
+            )
+            gemini_response = resp.json()
+
+        # Extract text from Gemini response
+        response_text = gemini_response["candidates"][0]["content"]["parts"][0]["text"]
 
         try:
             # Parse Gemini's JSON response
-            result = json.loads(response.text.strip().replace("```json", "").replace("```", ""))
+            result = json.loads(response_text.strip().replace("```json", "").replace("```", ""))
             return result
         except json.JSONDecodeError:
             # Fallback if Gemini doesn't return valid JSON
@@ -131,7 +141,7 @@ Respond in JSON format:
                 "intent": "general_chat",
                 "confidence": 0.5,
                 "clarification_needed": False,
-                "user_friendly_response": response.text
+                "user_friendly_response": response_text
             }
 
     async def call_agent(self, agent_id: str, parameters: Dict) -> Dict:
@@ -196,8 +206,16 @@ We called agent "{agent_id}" and got this response:
 
 Format this in a friendly, natural way for the user. Be concise and helpful."""
 
-            formatted = model.generate_content(format_prompt)
-            response = formatted.text
+            # Call Gemini REST API
+            async with httpx.AsyncClient() as http_client:
+                resp = await http_client.post(
+                    f"{GEMINI_API_URL}?key={GEMINI_API_KEY}",
+                    json={"contents": [{"parts": [{"text": format_prompt}]}]},
+                    timeout=30.0
+                )
+                gemini_response = resp.json()
+
+            response = gemini_response["candidates"][0]["content"]["parts"][0]["text"]
 
             self.conversation_history.append({
                 "role": "assistant",
