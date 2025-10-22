@@ -130,6 +130,7 @@ class AgentCardResponse(BaseModel):
     """Return registered AgentCard"""
     id: int
     agent_id: str
+    did: Optional[str] = None  # Decentralized identifier for Poros Protocol v2
     owner_id: int
     name: str
     description: str

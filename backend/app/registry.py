@@ -190,6 +190,7 @@ async def register_agent(
     return AgentCardResponse(
         id=agent.id,
         agent_id=agent.agent_id,
+        did=agent.did,  # Include DID in response
         owner_id=agent.owner_id,
         name=agent.name,
         description=agent.description,
@@ -281,6 +282,7 @@ async def get_agent(
     return AgentCardResponse(
         id=agent.id,
         agent_id=agent.agent_id,
+        did=agent.did,  # Include DID in response
         owner_id=agent.owner_id,
         name=agent.name,
         description=agent.description,
