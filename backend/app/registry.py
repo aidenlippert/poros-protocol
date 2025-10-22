@@ -161,8 +161,12 @@ async def register_agent(
         skills_tags.extend(skill.get("tags", []))
 
     # Create registered agent
+    # Extract DID from agent card (for Poros Protocol v2)
+    did = agent_card.get("did")
+
     agent = RegisteredAgent(
         agent_id=agent_id,
+        did=did,  # Store the DID!
         owner_id=current_user["user_id"],
         agent_card=agent_card,
         name=name,
