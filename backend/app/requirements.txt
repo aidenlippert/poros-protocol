@@ -10,6 +10,7 @@ a2a-sdk[all]>=0.3.0
 # Database
 sqlmodel>=0.0.18
 sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.9  # Postgres driver for production
 
 # HTTP client for calling agents
 httpx>=0.24.0
