@@ -21,7 +21,8 @@ load_dotenv()
 
 # Configure Gemini
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel('gemini-pro')
+# Use the correct model name for the current API
+model = genai.GenerativeModel('models/gemini-1.5-flash-latest')
 
 POROS_API_URL = os.getenv("POROS_API_URL", "https://poros-protocol-production.up.railway.app")
 
