@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { Suspense, useEffect, useState, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { api } from '@/lib/api/client';
 import type { Agent, QueryResponse } from '@/types';
@@ -15,7 +15,7 @@ interface Message {
   status?: 'success' | 'error';
 }
 
-export default function QueryConsolePage() {
+function ConsoleContent() {
   const searchParams = useSearchParams();
   const [agents, setAgents] = useState<Agent[]>([]);
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
@@ -275,5 +275,14 @@ export default function QueryConsolePage() {
         </div>
       </div>
     </div>
+  );
+}
+
+
+export default function QueryConsolePage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center h-full"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div></div>}>
+      <ConsoleContent />
+    </Suspense>
   );
 }
