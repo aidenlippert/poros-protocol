@@ -1,0 +1,8 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "agents/weather_agent/Dockerfile"
+
+[deploy]
+startCommand = "python agent.py"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10

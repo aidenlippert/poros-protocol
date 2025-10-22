@@ -23,8 +23,8 @@ from poros_sdk import PorosClient, generate_did, sign_agent_card
 
 AGENT_NAME = "Poros Weather Service"
 AGENT_DESCRIPTION = "Real-time weather information and 5-day forecasts for any city worldwide"
-AGENT_PORT = 9100
-AGENT_URL = "http://localhost:9100"  # Change to your public URL for production
+AGENT_PORT = int(os.getenv("PORT", "9100"))
+AGENT_URL = os.getenv("AGENT_URL", "http://localhost:9100")  # Set via Railway env var
 
 # OpenWeatherMap API (free tier: 60 calls/minute, 1000 calls/day)
 # Get your free API key at: https://openweathermap.org/api
