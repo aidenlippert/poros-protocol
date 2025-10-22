@@ -158,7 +158,11 @@ async def register_agent(
     skills = agent_card.get("skills", [])
     skills_tags = []
     for skill in skills:
-        skills_tags.extend(skill.get("tags", []))
+        # Handle both string format and dict format
+        if isinstance(skill, str):
+            skills_tags.append(skill)
+        elif isinstance(skill, dict):
+            skills_tags.extend(skill.get("tags", []))
 
     # Create registered agent
     # Extract DID from agent card (for Poros Protocol v2)
