@@ -1,0 +1,10 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "env": {
+    "NEXT_PUBLIC_BACKEND_URL": "https://poros-protocol-production.up.railway.app",
+    "NEXT_PUBLIC_APP_NAME": "Poros Protocol",
+    "NEXT_PUBLIC_APP_VERSION": "2.0"
+  }
+}
