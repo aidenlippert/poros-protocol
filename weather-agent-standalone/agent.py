@@ -363,14 +363,13 @@ if __name__ == "__main__":
         register_with_poros()
     except Exception as e:
         print(f"[WARNING] Registration failed: {e}")
-        print("[INFO] Starting server anyway...
-")
+        print("[INFO] Starting server anyway...\n")
 
     # Always start the server
-    print(f"{"="*60}")
+    print("=" * 60)
     print(f"{AGENT_NAME} is live!")
     print(f"Listening on: {AGENT_URL}")
-    print(f"{"="*60}
-")
+    print("=" * 60)
+    print()
 
     uvicorn.run(app, host="0.0.0.0", port=AGENT_PORT)
