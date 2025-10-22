@@ -128,8 +128,27 @@ Respond in JSON format:
             )
             gemini_response = resp.json()
 
+        # Check for errors
+        if "error" in gemini_response:
+            print(f"Gemini API Error: {gemini_response['error']}")
+            return {
+                "intent": "general_chat",
+                "confidence": 0.0,
+                "clarification_needed": False,
+                "user_friendly_response": f"I encountered an error: {gemini_response['error'].get('message', 'Unknown error')}"
+            }
+
         # Extract text from Gemini response
-        response_text = gemini_response["candidates"][0]["content"]["parts"][0]["text"]
+        try:
+            response_text = gemini_response["candidates"][0]["content"]["parts"][0]["text"]
+        except (KeyError, IndexError) as e:
+            print(f"Unexpected Gemini response format: {gemini_response}")
+            return {
+                "intent": "general_chat",
+                "confidence": 0.0,
+                "clarification_needed": False,
+                "user_friendly_response": "I'm having trouble processing your request. Please try again."
+            }
 
         try:
             # Parse Gemini's JSON response
@@ -215,7 +234,14 @@ Format this in a friendly, natural way for the user. Be concise and helpful."""
                 )
                 gemini_response = resp.json()
 
-            response = gemini_response["candidates"][0]["content"]["parts"][0]["text"]
+            # Handle errors
+            if "error" in gemini_response:
+                response = f"Agent response: {json.dumps(agent_response, indent=2)}"
+            else:
+                try:
+                    response = gemini_response["candidates"][0]["content"]["parts"][0]["text"]
+                except (KeyError, IndexError):
+                    response = f"Agent response: {json.dumps(agent_response, indent=2)}"
 
             self.conversation_history.append({
                 "role": "assistant",
