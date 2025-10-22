@@ -42,7 +42,8 @@ class RegisteredAgent(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
 
     # Agent identity
-    agent_id: str = Field(index=True, unique=True)  # Unique agent identifier
+    agent_id: str = Field(index=True, unique=True)  # Unique agent identifier (owner/name)
+    did: Optional[str] = Field(default=None, index=True, unique=True)  # Decentralized ID (Poros v2)
     owner_id: int = Field(foreign_key="users.id")
 
     # AgentCard JSON (full A2A protocol AgentCard)
