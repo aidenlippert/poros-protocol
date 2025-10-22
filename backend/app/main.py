@@ -20,6 +20,7 @@ from .database import init_db
 from .registry import router as registry_router
 from .orchestrator import router as orchestrator_router
 from .identity_api import router as identity_router
+from .poros_verbs import router as poros_verbs_router
 
 # Configure logging
 logging.basicConfig(
@@ -132,6 +133,7 @@ async def health_check():
 app.include_router(registry_router)
 app.include_router(orchestrator_router)
 app.include_router(identity_router)
+app.include_router(poros_verbs_router)
 
 
 # ============================================
