@@ -1,6 +1,6 @@
 [build]
 builder = "dockerfile"
-dockerfilePath = "agents/weather_agent/Dockerfile"
+dockerfilePath = "Dockerfile"
 
 [deploy]
 startCommand = "python agent.py"
