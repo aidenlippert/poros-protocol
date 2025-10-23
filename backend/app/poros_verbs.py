@@ -103,8 +103,30 @@ async def discover_agents(
     # Filter by capability
     matching_agents = []
     for agent in all_agents:
-        # Check if capability is in any skill tags
+        # Check if capability matches:
+        # 1. In skills_tags (flattened tags)
+        # 2. In capabilities[].name (capability name)
+        # 3. In skills[].id (skill ID)
+        matched = False
+
         if request.capability in agent.skills_tags:
+            matched = True
+
+        # Check agent_card capabilities
+        capabilities = agent.agent_card.get("capabilities", [])
+        for cap in capabilities:
+            if cap.get("name") == request.capability:
+                matched = True
+                break
+
+        # Check agent_card skills
+        skills = agent.agent_card.get("skills", [])
+        for skill in skills:
+            if skill.get("id") == request.capability:
+                matched = True
+                break
+
+        if matched:
             matching_agents.append(agent)
 
     # Apply additional filters
