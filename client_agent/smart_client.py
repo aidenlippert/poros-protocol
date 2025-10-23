@@ -333,12 +333,12 @@ async def main():
     agent = SmartClientAgent()
 
     print("""
-╔══════════════════════════════════════════════════════════╗
-║         POROS SMART CLIENT AGENT v1.0                    ║
-║                                                          ║
-║  Your intelligent personal assistant                    ║
-║  Powered by Poros Protocol                              ║
-╚══════════════════════════════════════════════════════════╝
+==============================================================
+         POROS SMART CLIENT AGENT v1.0
+
+  Your intelligent personal assistant
+  Powered by Poros Protocol
+==============================================================
     """)
 
     print("💡 Try these commands:")
